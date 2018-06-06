@@ -6,8 +6,8 @@ let factory = function(cluster){
 	};
 
 	honeyjar.register = function(db){
-		let db = __honeyjar.databases.find(e => e.name === db.name);
-		if(db){
+		let edb = __honeyjar.databases.find(e => e.name === db.name);
+		if(edb){
 			throw new Error(`[HONEYJAR] Cannot register database with the same name of another registered database (${db.name})`);
 		}
 
