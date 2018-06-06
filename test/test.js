@@ -98,3 +98,69 @@ describe('New model creation', function(){
 		setTimeout(done, 100);
 	});
 });
+
+describe('Handler interaction', function(){
+	it('Should Find a handler', function(){
+		const db = getDatabase('test-db');
+		db.config({
+			autosave: false
+		});
+
+		class User extends db.Model {
+			constructor(name, lastname){
+				super('User');
+				this.name = name;
+				this.lastname = lastname;
+			}
+
+			getName(){
+				return `${this.name} ${this.lastname}`;
+			}
+		}
+
+		new User('Jo', 'Colina');
+
+		expect(db.Users).to.not.be.undefined;
+	});
+
+
+	it('Should get user Handler to find user', function(done){
+		const db = getDatabase('test-db');
+		db.config({
+			autosave: true
+		});
+
+		class User extends db.Model {
+			constructor(name, lastname){
+				super('User');
+				this.name = name;
+				this.lastname = lastname;
+			}
+
+			getName(){
+				return `${this.name} ${this.lastname}`;
+			}
+		}
+
+		new User('Jo', 'Colina');
+		new User('Poulet', 'Troismille');
+		new User('Paul', 'Jenny');
+		new User('Plep', 'Quatremille');
+		
+		let u = db.Users.findByName('Paul').then(users => {
+			expect(users).to.have.lengthOf(1);
+			expect(users[0].name).to.be.eql('Paul');
+			expect(users[0].lastname).to.be.eql('Jenny');
+
+			return db.Users.findByName('Poulet');
+		}).then(users => {
+			expect(users).to.have.lengthOf(1);
+			expect(users[0].name).to.be.eql('Poulet');
+			expect(users[0].lastname).to.be.eql('Troismille');
+			setTimeout(done, 200);
+
+		}).catch(e => {
+			setTimeout(() => done(e), 200);
+		});
+	});
+});
