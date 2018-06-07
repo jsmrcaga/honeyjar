@@ -12,7 +12,7 @@ describe('New model creation', function(){
 
 		const db = getDatabase('test-db');
 		class User extends db.Model {
-			constructor(name, lastname){
+			constructor(options, name, lastname){
 				super('User');
 				this.name = name;
 				this.lastname = lastname;
@@ -23,7 +23,7 @@ describe('New model creation', function(){
 			}
 		}
 
-		let u = new User('Jo', 'Colina');
+		let u = new User({}, 'Jo', 'Colina');
 		expect(u.getName()).to.be.eql('Jo Colina');
 	});
 
@@ -35,7 +35,7 @@ describe('New model creation', function(){
 		});
 
 		class User extends db.Model {
-			constructor(name, lastname){
+			constructor(options, name, lastname){
 				super('User');
 				this.name = name;
 				this.lastname = lastname;
@@ -46,7 +46,7 @@ describe('New model creation', function(){
 			}
 		}
 
-		let u = new User('Jo', 'BASE64');
+		let u = new User({}, 'Jo', 'BASE64');
 		expect(u.getName()).to.be.eql('Jo BASE64');
 	});
 
@@ -54,7 +54,7 @@ describe('New model creation', function(){
 
 		const db = getDatabase('test-db');
 		class User extends db.Model {
-			constructor(name, lastname){
+			constructor(options, name, lastname){
 				super('User');
 				this.name = name;
 				this.lastname = lastname;
@@ -65,7 +65,7 @@ describe('New model creation', function(){
 			}
 		}
 
-		let u = new User('Jo', 'Colina');
+		let u = new User({}, 'Jo', 'Colina');
 		u.age = 24;
 		expect(u.age).to.be.eql(24);
 	});
@@ -78,7 +78,7 @@ describe('New model creation', function(){
 		});
 
 		class User extends db.Model {
-			constructor(name, lastname){
+			constructor(options, name, lastname){
 				super('User');
 				this.name = name;
 				this.lastname = lastname;
@@ -89,7 +89,7 @@ describe('New model creation', function(){
 			}
 		}
 
-		let u = new User('Jo', 'Colina');
+		let u = new User({}, 'Jo', 'Colina');
 		u.set('age', 24);
 		expect(u.age).to.be.eql(24);
 	});
@@ -103,7 +103,7 @@ describe('Handler interaction', function(){
 		});
 
 		class User extends db.Model {
-			constructor(name, lastname){
+			constructor(options, name, lastname){
 				super('User');
 				this.name = name;
 				this.lastname = lastname;
@@ -114,7 +114,7 @@ describe('Handler interaction', function(){
 			}
 		}
 
-		new User('Jo', 'Colina');
+		new User({}, 'Jo', 'Colina');
 
 		expect(db.Users).to.not.be.undefined;
 	});
@@ -127,7 +127,7 @@ describe('Handler interaction', function(){
 		});
 
 		class User extends db.Model {
-			constructor(name, lastname){
+			constructor(options, name, lastname){
 				super('User');
 				this.name = name;
 				this.lastname = lastname;
@@ -138,10 +138,10 @@ describe('Handler interaction', function(){
 			}
 		}
 
-		new User('Jo', 'Colina');
-		new User('Poulet', 'Troismille');
-		new User('Paul', 'Jenny');
-		new User('Plep', 'Quatremille');
+		new User({}, 'Jo', 'Colina');
+		new User({}, 'Poulet', 'Troismille');
+		new User({}, 'Paul', 'Jenny');
+		new User({}, 'Plep', 'Quatremille');
 		
 		let u = db.Users.findByName('Paul').then(users => {
 			expect(users).to.have.lengthOf(1);
@@ -167,7 +167,7 @@ describe('Handler interaction', function(){
 		});
 
 		class User extends db.Model {
-			constructor(name, lastname){
+			constructor(options, name, lastname){
 				super('User');
 				this.name = name;
 				this.lastname = lastname;
@@ -178,7 +178,7 @@ describe('Handler interaction', function(){
 			}
 		}
 
-		db.registerHandler('User');
+		db.registerModel(User);
 
 		db.load().then((d) => {
 			let users = d.find(e => e.__type === 'User').data;
