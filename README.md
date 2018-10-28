@@ -1,11 +1,11 @@
 # Honeyjar 🍯
 
-A super simple DB in JSON format ! 
+A super simple DB in JSON format! 
 
-This project is intended for people that don't really like messing with "real" databases (SQL, Mongo, Redis...) and
+This project is intended for people that don't really like messing with "real" databases (SQL, Mongo, Redis, etc.) and
 need a simple data management solution for small projects.
 
-Note that I've deployed similar solutions on full-scale applications that work perfectly, though you might need to run
+Note that I've deployed similar solutions on full-scale applications that work perfectly, though you might want to run
 your own tests to be sure!
 
 I decline all responsability from everything related to the use of this project, use at your own risk!
